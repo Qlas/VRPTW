@@ -1,6 +1,6 @@
 import { capitalize } from "./utils";
 
-const models = ["testline", "group", "suspension", "ospool"];
+const models = ["client"];
 const actions = ["add", "change", "delete", "view"];
 
 const permissionUtils = {};

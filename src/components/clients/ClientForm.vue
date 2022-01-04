@@ -120,8 +120,8 @@ export default {
       }
 
       const toastMessage = this.currentData
-        ? `Updated ${this.name} OS pool`
-        : "Added a new OS pool";
+        ? `Updated ${this.name} Client`
+        : "Added a new Client";
 
       processFormAction(requestData)
         .then(() => {

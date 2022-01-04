@@ -19,7 +19,11 @@
       </b-navbar-item>
     </template>
     <template slot="start">
-      <b-navbar-item :to="{ path: '/clients' }" tag="router-link">
+      <b-navbar-item
+        :to="{ path: '/clients' }"
+        tag="router-link"
+        v-if="isAuthenticated && $permissions.client.any(authUser)"
+      >
         <b-icon :style="{ margin: '6px' }" icon="information-outline" />
         <p class="is-unselectable">Clients</p>
       </b-navbar-item>

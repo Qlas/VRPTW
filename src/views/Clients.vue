@@ -103,7 +103,7 @@ export default {
 
     openDeleteDialog(osp) {
       this.$buefy.dialog.confirm({
-        title: "Deleting OS pool",
+        title: "Deleting Client",
         message: `Are you sure you want to <b>delete</b> Client ${osp.name}?`,
         confirmText: "Delete ",
         type: "is-danger",

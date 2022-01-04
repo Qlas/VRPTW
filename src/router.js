@@ -23,6 +23,14 @@ const router = new Router({
             path: "/clients",
             name: "Clients",
             component: Clients,
+            beforeEnter: (to, from, next) => {
+                const authUser = store.getters["auth/authUser"];
+                if (
+                    permissions.client.any(authUser)
+                )
+                    next();
+                else next("/insufficient-permissions");
+            },
             meta: { requiresAuth: true, requiresNoAuth: false, canBeOnFooter: false },
         },
         {
