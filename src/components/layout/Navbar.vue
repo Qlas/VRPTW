@@ -1,6 +1,6 @@
 <template>
   <b-navbar
-    class="is-spaced has-shadow"
+    class="is-spaced has-shadow mb-2"
     type="is-primary"
     wrapper-class="container"
   >
@@ -19,10 +19,10 @@
       </b-navbar-item>
     </template>
     <template slot="start">
-      <!-- <b-navbar-item :to="{ path: '/about' }" tag="router-link">
+      <b-navbar-item :to="{ path: '/clients' }" tag="router-link">
         <b-icon :style="{ margin: '6px' }" icon="information-outline" />
-        <p class="is-unselectable">About</p>
-      </b-navbar-item> -->
+        <p class="is-unselectable">Clients</p>
+      </b-navbar-item>
     </template>
 
     <template slot="end">

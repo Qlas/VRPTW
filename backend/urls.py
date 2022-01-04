@@ -9,8 +9,9 @@ from django.contrib import admin
 from django.urls import include, path
 
 from .user.urls import urlpatterns as user_urls
+from .vue_api.urls import urlpatterns as vue_api_urls
 
-api_urlpatterns = list(chain.from_iterable([user_urls]))
+api_urlpatterns = list(chain.from_iterable([user_urls, vue_api_urls]))
 
 urlpatterns = [
     path("admin/", admin.site.urls),

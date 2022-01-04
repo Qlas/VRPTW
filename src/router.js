@@ -5,6 +5,7 @@ import Router from "vue-router";
 import permissions from "@/utils/permissionUtils";
 
 import Home from "@/views/Home";
+import Clients from "@/views/Clients";
 import Login from "@/views/Login";
 import InsufficientPermissions from "@/views/InsufficientPermissions";
 
@@ -17,6 +18,12 @@ const router = new Router({
             name: "Home",
             component: Home,
             meta: { requiresAuth: false, requiresNoAuth: false, canBeOnFooter: false },
+        },
+        {
+            path: "/clients",
+            name: "Clients",
+            component: Clients,
+            meta: { requiresAuth: true, requiresNoAuth: false, canBeOnFooter: false },
         },
         {
             path: "/login",
