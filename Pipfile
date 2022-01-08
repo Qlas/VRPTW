@@ -11,6 +11,7 @@ django-rest-witchcraft = "*"
 djangorestframework-simplejwt = "*"
 flake8 = "*"
 isort = "*"
+numpy = "*"
 
 [dev-packages]
 

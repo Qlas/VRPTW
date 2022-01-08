@@ -120,7 +120,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "CalculateForm",
@@ -141,6 +141,7 @@ export default {
 
   methods: {
     ...mapActions("clients", ["getClients", "addClient", "updateClient"]),
+    ...mapMutations("results", ["openPreview", "clearPreview"]),
     ...mapActions("results", ["addResult"]),
 
     changeSelectValue(chosenClients) {
@@ -178,13 +179,16 @@ export default {
       }
 
       this.addResult(requestData)
-        .then(() => {
+        .then((result) => {
+          this.clearPreview();
+          this.openPreview(result.name);
           this.$buefy.toast.open({
             message: "Added a new Calculation",
             position: "is-top",
             type: "is-primary",
             container: "div.toast-space",
           });
+          this.$router.push("/results");
         })
         .catch((err) => {
           this.$errorHandler.handleResponseError(err);

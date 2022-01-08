@@ -142,9 +142,5 @@ export default {
   computed: {
     ...mapGetters("clients", ["clients"]),
   },
-
-  created() {
-    this.getClients();
-  },
 };
 </script>

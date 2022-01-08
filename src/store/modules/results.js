@@ -3,12 +3,14 @@ import { jsonConcat } from "@/utils/utils.js";
 
 const state = {
     results: [],
+    openedPreviews: [],
 };
 
 const getters = {
     results: (state) => {
         return state.results;
     },
+    openedPreviews: (state) => state.openedPreviews,
 };
 
 const actions = {
@@ -30,7 +32,7 @@ const actions = {
                 .postResult(result)
                 .then(() => {
                     commit("addResult", result);
-                    resolve();
+                    resolve(result);
                 })
                 .catch((err) => reject(err));
         });
@@ -77,6 +79,19 @@ const mutations = {
     addResult(state, results) {
         state.results.push(results);
     },
+
+    openPreview(state, result) {
+        if (state.openedPreviews.includes(result)) return;
+        state.openedPreviews.push(result);
+    },
+
+    closePreview(state, result) {
+        state.openedPreviews = state.openedPreviews.filter((rs) => rs != result);
+    },
+
+    clearPreview(state) {
+        state.openedPreviews = []
+    }
 
 };
 

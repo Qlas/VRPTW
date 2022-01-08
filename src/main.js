@@ -11,6 +11,7 @@ import VueCountdown from "@chenfengyuan/vue-countdown";
 import VueMarkdown from "vue-markdown";
 import { NotificationProgrammatic as Notification } from "buefy";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
+import { Network } from "vue-vis-network";
 import "./validation/rules";
 import ValidatedInput from "@/components/customInputs/validatedInput";
 import ValidatedSelect from "@/components/customInputs/ValidatedSelect";
@@ -32,6 +33,7 @@ Vue.component("ValidationProvider", ValidationProvider);
 Vue.component("ValidationObserver", ValidationObserver);
 Vue.component(ValidatedInput.name, ValidatedInput);
 Vue.component(ValidatedSelect.name, ValidatedSelect);
+Vue.component('network', Network);
 
 Vue.prototype.$errorHandler = errorHandler;
 Vue.prototype.$permissions = permissionUtils;

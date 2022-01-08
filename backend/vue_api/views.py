@@ -4,6 +4,8 @@ from django.views.generic import TemplateView
 from rest_framework import serializers, viewsets
 from rest_framework.request import clone_request
 
+from backend.algorithm.main_al import run_VRTW_algorithm
+
 from .models import Client, ClientDistance, Result
 from .serializers import ClientDistanceSerializer, ClientSerializer, ResultClientSerializer, ResultSerializer
 
@@ -67,7 +69,7 @@ class ResultViewSet(viewsets.ModelViewSet):
 
         print(request.data, flush=True)
         max_capacity = request.data["capacity"]
-        cl_serv = request.data["clients"]
+        cl_serv = {"Depot": {"start": 0, "end": 0, "demand": 0}, **request.data["clients"]}
         odl = {}
         cost = {}
         for client in ["Depot", *cl_serv.keys()]:
@@ -80,10 +82,15 @@ class ResultViewSet(viewsets.ModelViewSet):
                     odl[(client, client2)] = client_distance.time
                     cost[(client, client2)] = client_distance.cost
                     print(client, client2, client_distance, flush=True)
+        print(cl_serv, flush=True)
+        print(max_capacity, flush=True)
         print(odl, flush=True)
         print(cost, flush=True)
-        return False
-
+        print("aaa")
+        kadencja = 1
+        maxint = 100
+        algorithm_result = run_VRTW_algorithm(cl_serv, max_capacity, odl, cost, kadencja, maxint)
+        request.data["cost"] = algorithm_result[1]
         response = super().create(request)
         if response.status_code == 201:
             creating_result = Result.objects.get(name=request.data["name"])
@@ -95,6 +102,8 @@ class ResultViewSet(viewsets.ModelViewSet):
                         "start": data["start"],
                         "end": data["end"],
                         "demand": data["demand"],
+                        "truck": algorithm_result[0][client][0],
+                        "position": algorithm_result[0][client][1],
                     }
                 )
                 if result_client_serializer.is_valid():

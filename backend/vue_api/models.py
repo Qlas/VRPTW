@@ -35,7 +35,7 @@ class Result(models.Model):
 
 
 class ResultClient(models.Model):
-    result = models.ForeignKey(Result, on_delete=models.CASCADE)
+    result = models.ForeignKey(Result, on_delete=models.CASCADE, related_name="result_client")
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     start = models.IntegerField()
     end = models.IntegerField()

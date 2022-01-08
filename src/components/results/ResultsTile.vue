@@ -14,11 +14,11 @@
             <div class="column is-3">
               <h2>{{ name }}</h2>
             </div>
-            <div class="column is-offset-6">
+            <div class="column is-offset-5">
               <b-field grouped>
                 <div class="control tl-count-tag">
                   <b-taglist attached>
-                    <b-tag type="is-success">Capacity</b-tag>
+                    <b-tag type="is-success">Max Capacity</b-tag>
                     <b-tag class="is-dark">{{ padInt(capacity) }}</b-tag>
                   </b-taglist>
                 </div>
@@ -35,24 +35,33 @@
         </div>
       </div>
     </div>
+    <b-collapse class="preview-tile" animation="slide" :open="isOpen">
+      <ResultDetails :resultClient="resultClient" :key="componentKey" />
+    </b-collapse>
   </div>
 </template>
 
 <script>
 import { mapMutations } from "vuex";
+import ResultDetails from "@/components/results/ResultDetails.vue";
 
 export default {
-  name: "ResultsTile",
+  name: "ResultTile",
 
-  components: {},
+  components: { ResultDetails },
 
-  props: ["name", "info", "capacity", "cost", "user", "isOpen"],
-
+  props: ["name", "info", "capacity", "cost", "user", "isOpen", "resultClient"],
+  data() {
+    return { componentKey: 0 };
+  },
   methods: {
-    ...mapMutations("group", ["openPreview", "closePreview"]),
+    ...mapMutations("results", ["openPreview", "closePreview"]),
     onPreviewClick() {
       if (this.isOpen) this.closePreview(this.name);
-      else this.openPreview(this.name);
+      else {
+        this.openPreview(this.name);
+        this.componentKey += 1;
+      }
     },
 
     padInt(value) {

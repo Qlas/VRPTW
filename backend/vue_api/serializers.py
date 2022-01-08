@@ -53,6 +53,11 @@ class ResultClientSerializer(serializers.ModelSerializer):
 
 
 class ResultSerializer(serializers.ModelSerializer):
+    result_client = ResultClientSerializer(
+        many=True,
+        read_only=True,
+    )
+
     class Meta:
         model = Result
         fields = "__all__"
