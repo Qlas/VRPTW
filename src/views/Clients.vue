@@ -6,6 +6,7 @@
         class="is-primary ml-2"
         icon-left="plus-thick"
         @click="openCreateModal"
+        v-if="$permissions.client.canAdd(authUser)"
       >
         Add new client
       </b-button>
@@ -46,6 +47,7 @@
               icon-left="pencil"
               inverted
               @click="openEditModal(osp)"
+              v-if="$permissions.client.canChange(authUser)"
               >Edit</b-button
             >
             <b-button
@@ -53,6 +55,7 @@
               icon-left="trash-can"
               inverted
               @click="openDeleteDialog(osp)"
+              v-if="$permissions.client.canDelete(authUser)"
               >Delete</b-button
             >
           </footer>
@@ -128,10 +131,12 @@ export default {
 
   computed: {
     ...mapGetters("clients", ["clients"]),
+    ...mapGetters("auth", ["isAuthenticated", "authUser"]),
 
     clientsGrouped() {
       let clientsGrouped = [];
       let clientsCopy = [...this.clients];
+      clientsCopy = clientsCopy.slice(1);
 
       while (clientsCopy.length) {
         clientsGrouped.push(clientsCopy.splice(0, this.groupSize));

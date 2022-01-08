@@ -19,12 +19,20 @@
       </b-navbar-item>
     </template>
     <template slot="start">
+      <b-navbar-item :to="{ path: '/results' }" tag="router-link">
+        <b-icon :style="{ margin: '6px' }" icon="view-list-outline" />
+        <p class="is-unselectable">Results</p>
+      </b-navbar-item>
+      <b-navbar-item :to="{ path: '/calculate' }" tag="router-link">
+        <b-icon :style="{ margin: '6px' }" icon="calculator" />
+        <p class="is-unselectable">Calculate</p>
+      </b-navbar-item>
       <b-navbar-item
         :to="{ path: '/clients' }"
         tag="router-link"
         v-if="isAuthenticated && $permissions.client.any(authUser)"
       >
-        <b-icon :style="{ margin: '6px' }" icon="information-outline" />
+        <b-icon :style="{ margin: '6px' }" icon="human-edit" />
         <p class="is-unselectable">Clients</p>
       </b-navbar-item>
     </template>

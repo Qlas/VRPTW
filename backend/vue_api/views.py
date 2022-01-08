@@ -1,9 +1,11 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.cache import never_cache
 from django.views.generic import TemplateView
 from rest_framework import serializers, viewsets
+from rest_framework.request import clone_request
 
-from .models import Client, ClientDistance
-from .serializers import ClientDistanceSerializer, ClientSerializer
+from .models import Client, ClientDistance, Result
+from .serializers import ClientDistanceSerializer, ClientSerializer, ResultClientSerializer, ResultSerializer
 
 
 class ClientViewSet(viewsets.ModelViewSet):
@@ -54,6 +56,51 @@ class ClientViewSet(viewsets.ModelViewSet):
             if client_distance_serializer.is_valid():
                 client_distance_serializer.save()
         return super().partial_update(request, pk)
+
+
+class ResultViewSet(viewsets.ModelViewSet):
+    queryset = Result.objects.all().order_by("id")
+    serializer_class = ResultSerializer
+
+    def create(self, request):
+        request.data["user"] = request.user.pk
+
+        print(request.data, flush=True)
+        max_capacity = request.data["capacity"]
+        cl_serv = request.data["clients"]
+        odl = {}
+        cost = {}
+        for client in ["Depot", *cl_serv.keys()]:
+            for client2 in ["Depot", *cl_serv.keys()]:
+                if client != client2:
+                    try:
+                        client_distance = ClientDistance.objects.get(client1__name=client, client2__name=client2)
+                    except ObjectDoesNotExist:
+                        client_distance = ClientDistance.objects.get(client1__name=client2, client2__name=client)
+                    odl[(client, client2)] = client_distance.time
+                    cost[(client, client2)] = client_distance.cost
+                    print(client, client2, client_distance, flush=True)
+        print(odl, flush=True)
+        print(cost, flush=True)
+        return False
+
+        response = super().create(request)
+        if response.status_code == 201:
+            creating_result = Result.objects.get(name=request.data["name"])
+            for client, data in request.data["clients"].items():
+                result_client_serializer = ResultClientSerializer(
+                    data={
+                        "result": creating_result.name,
+                        "client": client,
+                        "start": data["start"],
+                        "end": data["end"],
+                        "demand": data["demand"],
+                    }
+                )
+                if result_client_serializer.is_valid():
+                    result_client_serializer.save()
+
+        return response
 
 
 # Serve Vue Application

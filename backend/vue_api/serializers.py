@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from rest_framework import serializers
 
-from .models import Client, ClientDistance
+from .models import Client, ClientDistance, Result, ResultClient
 
 
 class ClientSerializer(serializers.ModelSerializer):
@@ -40,4 +40,19 @@ class ClientDistanceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ClientDistance
+        fields = "__all__"
+
+
+class ResultClientSerializer(serializers.ModelSerializer):
+    result = serializers.SlugRelatedField(slug_field="name", queryset=Result.objects.all())
+    client = serializers.SlugRelatedField(slug_field="name", queryset=Client.objects.all())
+
+    class Meta:
+        model = ResultClient
+        fields = "__all__"
+
+
+class ResultSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Result
         fields = "__all__"

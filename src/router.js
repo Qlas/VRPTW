@@ -6,6 +6,8 @@ import permissions from "@/utils/permissionUtils";
 
 import Home from "@/views/Home";
 import Clients from "@/views/Clients";
+import Calculate from "@/views/Calculate";
+import Results from "@/views/Results";
 import Login from "@/views/Login";
 import InsufficientPermissions from "@/views/InsufficientPermissions";
 
@@ -32,6 +34,18 @@ const router = new Router({
                 else next("/insufficient-permissions");
             },
             meta: { requiresAuth: true, requiresNoAuth: false, canBeOnFooter: false },
+        },
+        {
+            path: "/calculate",
+            name: "Calculate",
+            component: Calculate,
+            meta: { requiresAuth: false, requiresNoAuth: false, canBeOnFooter: false },
+        },
+        {
+            path: "/results",
+            name: "Results",
+            component: Results,
+            meta: { requiresAuth: false, requiresNoAuth: false, canBeOnFooter: false },
         },
         {
             path: "/login",

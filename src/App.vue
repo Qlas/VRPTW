@@ -86,6 +86,9 @@ body {
   flex-grow: 1;
 }
 
+.modal-close {
+  visibility: hidden;
+}
 #app {
   display: flex;
   flex-direction: column;
