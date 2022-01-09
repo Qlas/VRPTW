@@ -101,6 +101,7 @@ def secalgo(initialsolution, init_val, kadencja, cl_serv,maxint, cost, odl , max
                 iletru = max([jj[0] for jj  in [ ii[1] for ii in list(val_sort.items())]])
 
         neig_cost=[]
+ 
         for i_n in range(0,len(neighbours)):
             trucks=[]
             for i in range(0,iletru+1):
@@ -117,20 +118,17 @@ def secalgo(initialsolution, init_val, kadencja, cl_serv,maxint, cost, odl , max
                     cost_solution+=cost[(t[i-1],t[i])]  
             neig_cost.append(cost_solution)
 
-        
+            #best_now = (trucks[neig_cost.index(min(neig_cost))][1:-1])
 
-        #best_now = (trucks[neig_cost.index(min(neig_cost))][1:-1])
+            if sum(neig_cost) < init_val:
+                tabulist.append([klient,cl_items[neig_cost.index(min(neig_cost))]])
+                if len(trucks) >1: 
+                    initialsolution = trucks
+                else : initialsolution = trucks
+                init_val = min(neig_cost)
 
-
-        if sum(neig_cost) < init_val:
-            tabulist.append([klient,cl_items[neig_cost.index(min(neig_cost))]])
-            if len(trucks) >1: 
-                initialsolution = trucks
-            else : initialsolution = trucks
-            init_val = min(neig_cost)
-
-            if len(tabulist)  > kadencja:
-                del tabulist[0]
+                if len(tabulist)  > kadencja:
+                    del tabulist[0]
 
     solution_clientes2={}
     for i in range(0,len(initialsolution)):
