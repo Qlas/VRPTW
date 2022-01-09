@@ -7,9 +7,9 @@ def secalgo(initialsolution, init_val, kadencja, cl_serv, maxint, cost, odl, max
 
     if len(cl_serv) == 2:
         if odl[initialsolution[0][0],initialsolution[0][1]] >= cl_serv[initialsolution[0][1]]["start"]:
-            return initialsolution,init_val,  { initialsolution[0][1] :odl[initialsolution[0][0],initialsolution[0][1] ], initialsolution[0][0] : 2* odl[initialsolution[0][0],initialsolution[0][1] ] }
+            return {initialsolution[0][1] : (0,1)} ,init_val,  { initialsolution[0][1] :odl[initialsolution[0][0],initialsolution[0][1] ], initialsolution[0][0] : 2* odl[initialsolution[0][0],initialsolution[0][1] ] }
         else :
-            return initialsolution,init_val, { initialsolution[0][1] : cl_serv[initialsolution[0][1]]["start"],  initialsolution[0][0] : cl_serv[initialsolution[0][1]]["start"]+ odl[initialsolution[0][0],initialsolution[0][1] ] }
+            return {initialsolution[0][1] : (0,1)},init_val, { initialsolution[0][1] : cl_serv[initialsolution[0][1]]["start"],  initialsolution[0][0] : cl_serv[initialsolution[0][1]]["start"]+ odl[initialsolution[0][0],initialsolution[0][1] ] }
 
 
 
