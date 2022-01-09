@@ -3,7 +3,9 @@ from django.views.decorators.cache import never_cache
 from django.views.generic import TemplateView
 from rest_framework import serializers, viewsets
 from rest_framework.request import clone_request
+from rest_framework.response import Response
 
+from backend.algorithm.error import TWerror, client_capacity_error
 from backend.algorithm.main_al import run_VRTW_algorithm
 
 from .models import Client, ClientDistance, GlobalValues, Result
@@ -88,9 +90,12 @@ class ResultViewSet(viewsets.ModelViewSet):
         print(cost, flush=True)
         print("aaa")
         global_values = GlobalValues.objects.first()
-        algorithm_result = run_VRTW_algorithm(
-            cl_serv, max_capacity, odl, cost, global_values.tabu_term, global_values.maxint
-        )
+        try:
+            algorithm_result = run_VRTW_algorithm(
+                cl_serv, max_capacity, odl, cost, global_values.tabu_term, global_values.maxint
+            )
+        except (client_capacity_error, TWerror) as e:
+            return Response({str(e): e.args}, status=400)
         print(algorithm_result, flush=True)
         request.data["cost"] = algorithm_result[1]
         response = super().create(request)

@@ -1,7 +1,10 @@
-class klient_capacity_error(Exception):
+class client_capacity_error(Exception):
     "Raised when client demends more than max capacity of truck"
-    pass
+
+    def __str__(self) -> str:
+        return "Demand"
 
 
 class TWerror(Exception):
-    pass
+    def __str__(self) -> str:
+        return "Time Window"
