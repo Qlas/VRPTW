@@ -42,11 +42,15 @@ class ResultClient(models.Model):
     demand = models.FloatField()
     truck = models.IntegerField(blank=True, null=True)
     position = models.IntegerField(blank=True, null=True)
+    start_of_service = models.FloatField(blank=True, null=True)
 
     def __str__(self) -> str:
         return f"{self.result.name} - {self.client.name} - {self.truck} - {self.position}"
 
 
 class GlobalValues(models.Model):
-    cad = models.IntegerField()
+    tabu_term = models.IntegerField()
     maxint = models.IntegerField()
+
+    def __str__(self) -> str:
+        return f"TabuTerm: {self.tabu_term}, MaxInt: {self.maxint}"

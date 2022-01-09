@@ -6,7 +6,7 @@ from rest_framework.request import clone_request
 
 from backend.algorithm.main_al import run_VRTW_algorithm
 
-from .models import Client, ClientDistance, Result
+from .models import Client, ClientDistance, GlobalValues, Result
 from .serializers import ClientDistanceSerializer, ClientSerializer, ResultClientSerializer, ResultSerializer
 
 
@@ -87,9 +87,11 @@ class ResultViewSet(viewsets.ModelViewSet):
         print(odl, flush=True)
         print(cost, flush=True)
         print("aaa")
-        kadencja = 1
-        maxint = 100
-        algorithm_result = run_VRTW_algorithm(cl_serv, max_capacity, odl, cost, kadencja, maxint)
+        global_values = GlobalValues.objects.first()
+        algorithm_result = run_VRTW_algorithm(
+            cl_serv, max_capacity, odl, cost, global_values.tabu_term, global_values.maxint
+        )
+        print(algorithm_result, flush=True)
         request.data["cost"] = algorithm_result[1]
         response = super().create(request)
         if response.status_code == 201:
@@ -104,6 +106,7 @@ class ResultViewSet(viewsets.ModelViewSet):
                         "demand": data["demand"],
                         "truck": algorithm_result[0][client][0],
                         "position": algorithm_result[0][client][1],
+                        "start_of_service": algorithm_result[2][client],
                     }
                 )
                 if result_client_serializer.is_valid():

@@ -41,13 +41,10 @@ export default {
         if (client.position > maxPos) maxPos = client.position;
         nodes.push({
           id: client.id,
-          label: client.client,
+          label: client.client + "\n" + client.start_of_service,
           shape: "box",
           x: client.position * 100,
-          y:
-            client.truck > this.trucks.length / client.truck
-              ? client.truck * 30
-              : -client.truck * 30,
+          y: (client.truck - (this.trucks.length - 1) / 2) * 50,
         });
       }
 
