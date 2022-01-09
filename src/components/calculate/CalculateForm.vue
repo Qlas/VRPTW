@@ -23,7 +23,7 @@
               :validation="{
                 rules: 'required|numeric',
               }"
-              :field="{ label: 'Capacity' }"
+              :field="{ label: 'Truck Capacity' }"
             />
           </div>
           <b-table :data="chosenClients">
