@@ -19,11 +19,19 @@
       </b-navbar-item>
     </template>
     <template slot="start">
-      <b-navbar-item :to="{ path: '/results' }" tag="router-link">
+      <b-navbar-item
+        :to="{ path: '/results' }"
+        tag="router-link"
+        v-if="isAuthenticated"
+      >
         <b-icon :style="{ margin: '6px' }" icon="view-list-outline" />
         <p class="is-unselectable">Results</p>
       </b-navbar-item>
-      <b-navbar-item :to="{ path: '/calculate' }" tag="router-link">
+      <b-navbar-item
+        :to="{ path: '/calculate' }"
+        tag="router-link"
+        v-if="isAuthenticated"
+      >
         <b-icon :style="{ margin: '6px' }" icon="calculator" />
         <p class="is-unselectable">Calculate</p>
       </b-navbar-item>

@@ -1,5 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
+from django.db.models import Q
 from django.views.decorators.cache import never_cache
 from django.views.generic import TemplateView
 from rest_framework import serializers, viewsets
@@ -66,6 +67,15 @@ class ClientViewSet(viewsets.ModelViewSet):
 class ResultViewSet(viewsets.ModelViewSet):
     queryset = Result.objects.all().order_by("id")
     serializer_class = ResultSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        queryset = queryset.filter(user=request.user)
+        serializer = self.get_serializer(
+            queryset,
+            many=True,
+        )
+        return Response(serializer.data)
 
     @transaction.atomic
     def create(self, request):
