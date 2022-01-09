@@ -1,4 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import transaction
 from django.views.decorators.cache import never_cache
 from django.views.generic import TemplateView
 from rest_framework import serializers, viewsets
@@ -66,6 +67,7 @@ class ResultViewSet(viewsets.ModelViewSet):
     queryset = Result.objects.all().order_by("id")
     serializer_class = ResultSerializer
 
+    @transaction.atomic
     def create(self, request):
         request.data["user"] = request.user.pk
 
@@ -118,6 +120,11 @@ class ResultViewSet(viewsets.ModelViewSet):
                     result_client_serializer.save()
 
         return response
+
+
+class ClientDistanceViewSet(viewsets.ModelViewSet):
+    queryset = ClientDistance.objects.all().order_by("id")
+    serializer_class = ClientDistanceSerializer
 
 
 # Serve Vue Application

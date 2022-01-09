@@ -32,6 +32,7 @@ export default {
 
   methods: {
     ...mapActions("results", ["getResults"]),
+    ...mapActions("clients", ["getClientDistance"]),
   },
 
   computed: {
@@ -41,7 +42,9 @@ export default {
 
   created() {
     this.getResults().then(() => {
-      this.loading_sources = false;
+      this.getClientDistance().then(() => {
+        this.loading_sources = false;
+      });
     });
   },
 };

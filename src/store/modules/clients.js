@@ -1,17 +1,34 @@
 import clientService from "@/services/clientService";
+import clientDistanceService from "@/services/clientDistanceService";
 import { jsonConcat } from "@/utils/utils.js";
 
 const state = {
     clients: [],
+    clientDistance: [],
 };
 
 const getters = {
     clients: (state) => {
         return state.clients;
     },
+    clientDistance: (state) => {
+        return state.clientDistance;
+    },
 };
 
 const actions = {
+    getClientDistance({ commit }, params) {
+        return new Promise((resolve, reject) => {
+            clientDistanceService
+                .fetchClients(params)
+                .then((clients) => {
+                    commit("setClientDistance", clients);
+                    resolve();
+                })
+                .catch((err) => reject(err));
+        });
+    },
+
     getClients({ commit }, params) {
         return new Promise((resolve, reject) => {
             clientService
@@ -72,6 +89,10 @@ const actions = {
 const mutations = {
     setClients(state, clients) {
         state.clients = clients;
+    },
+
+    setClientDistance(state, clientDistance) {
+        state.clientDistance = clientDistance;
     },
 
     addClient(state, clients) {

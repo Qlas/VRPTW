@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "ResultsDetails",
 
@@ -26,6 +27,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters("clients", ["clientDistance"]),
     nodes() {
       let nodes = [];
       nodes.push({
@@ -69,18 +71,39 @@ export default {
       }
       for (let truck of this.trucks) {
         let before = 0;
+        let before_client = "Depot";
         for (let id in truck) {
+          console.log;
           edges.push({
             from: before,
             to: truck[id].id,
             arrows: "to",
+            label:
+              "" +
+              this.clientDistance.find((obj) => {
+                return (
+                  (obj.client1 === before_client &&
+                    obj.client2 === truck[id].client) ||
+                  (obj.client2 === before_client &&
+                    obj.client1 === truck[id].client)
+                );
+              }).time,
           });
           before = truck[id].id;
+          before_client = truck[id].client;
         }
         edges.push({
           from: before,
           to: -1,
           arrows: "to",
+          label:
+            "" +
+            this.clientDistance.find((obj) => {
+              return (
+                (obj.client1 === before_client && obj.client2 === "Depot") ||
+                (obj.client2 === before_client && obj.client1 === "Depot")
+              );
+            }).time,
         });
       }
       return edges;
