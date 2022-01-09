@@ -6,7 +6,14 @@ import numpy as np
 def secalgo(initialsolution, init_val, kadencja, cl_serv, maxint, cost, odl, max_capacity):
 
     if len(cl_serv) == 2:
-        return initialsolution, init_val
+        if odl[initialsolution[0][0],initialsolution[0][1]] >= cl_serv[initialsolution[0][1]]["start"]:
+        
+            return initialsolution,init_val,  { initialsolution[0][1] :odl[initialsolution[0][0],initialsolution[0][1] ]}
+        else :
+            return initialsolution,init_val, { initialsolution[0][1] : cl_serv[initialsolution[0][1]]["start"]}
+
+
+     
 
     cl_serv_k = list(cl_serv.keys())
     depot = list(cl_serv.keys())[0]
