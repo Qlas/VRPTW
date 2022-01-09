@@ -84,6 +84,7 @@ def secalgo(initialsolution, init_val, kadencja, cl_serv,maxint, cost, odl , max
                             neig[item] = a
                             break 
 
+
                 neighbours.append(neig)
                 cl_items.append(item)
 
@@ -116,14 +117,16 @@ def secalgo(initialsolution, init_val, kadencja, cl_serv,maxint, cost, odl , max
                     cost_solution+=cost[(t[i-1],t[i])]  
             neig_cost.append(cost_solution)
 
+        
 
-        best_now = (trucks[neig_cost.index(min(neig_cost))][1:-1])
+        #best_now = (trucks[neig_cost.index(min(neig_cost))][1:-1])
 
-        if min(neig_cost) < init_val:
+
+        if sum(neig_cost) < init_val:
             tabulist.append([klient,cl_items[neig_cost.index(min(neig_cost))]])
             if len(trucks) >1: 
-                initialsolution = best_now
-            else : initialsolution = [best_now]
+                initialsolution = trucks
+            else : initialsolution = trucks
             init_val = min(neig_cost)
 
             if len(tabulist)  > kadencja:
@@ -139,18 +142,33 @@ def secalgo(initialsolution, init_val, kadencja, cl_serv,maxint, cost, odl , max
         pass
 
 
-    solution_clientes2
+    
     solsort = {k: v for k, v in sorted(solution_clientes2.items(), key=lambda item: item[1])}
+    iletru = max([jj[0] for jj  in [ ii[1] for ii in list(solsort.items())]])
 
-    stime=0
+    trucks =[]
+    for i in range(0,iletru+1):
+        truck =[depot]
+        for item in solsort:
+            if solsort[item][0]== i :
+                truck.append(item)
+        truck.append(depot)
+        trucks.append(truck)
+
+
+
+    
     times= {}
+    
     for t in trucks:
+        stime=0
         for i in range(1,len(t)):
-            if stime+odl[(t[i-1],t[i])]  >=cl_serv[t[i]]["start"] and stime+odl[(t[i-1],t[i])]  <= cl_serv[t[i]]["end"]  :
-                stime+=odl[(t[i-1],t[i])]
+            
+            if stime+odl[(t[i-1],t[i])]  >cl_serv[t[i]]["start"]  :
+                stime = stime+odl[(t[i-1],t[i])]
                 times[t[i]]=stime
-            elif stime+odl[(t[i-1],t[i])]  <=cl_serv[t[i]]["start"] : 
-                stime = odl[(t[i-1],t[i])]
+            elif stime+odl[(t[i-1],t[i])]  <= cl_serv[t[i]]["start"] : 
+                stime = cl_serv[t[i]]["start"]
                 times[t[i]]=stime
 
     return solution_clientes2,init_val, times
