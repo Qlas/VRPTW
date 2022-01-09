@@ -39,13 +39,13 @@ const router = new Router({
             path: "/calculate",
             name: "Calculate",
             component: Calculate,
-            meta: { requiresAuth: false, requiresNoAuth: false, canBeOnFooter: false },
+            meta: { requiresAuth: true, requiresNoAuth: false, canBeOnFooter: false },
         },
         {
             path: "/results",
             name: "Results",
             component: Results,
-            meta: { requiresAuth: false, requiresNoAuth: false, canBeOnFooter: false },
+            meta: { requiresAuth: true, requiresNoAuth: false, canBeOnFooter: false },
         },
         {
             path: "/login",

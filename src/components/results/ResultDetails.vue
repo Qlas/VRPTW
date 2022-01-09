@@ -39,22 +39,24 @@ export default {
       });
       this.edges;
       let maxPos = 0;
+      let client_before = "";
       for (let client of this.resultClient) {
         if (client.position > maxPos) maxPos = client.position;
         nodes.push({
           id: client.id,
           label: client.client + "\n" + client.start_of_service,
           shape: "box",
-          x: client.position * 100,
+          x: client.position * 150,
           y: (client.truck - (this.trucks.length - 1) / 2) * 50,
         });
+        client_before = client.client;
       }
 
       nodes.push({
         id: -1,
         label: "Depot",
         shape: "box",
-        x: (maxPos + 1) * 100,
+        x: (maxPos + 1) * 150,
         y: 0,
       });
       return nodes;
