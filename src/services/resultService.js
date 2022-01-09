@@ -12,7 +12,7 @@ export default {
             .patch(`result/${update.resultId}/`, update.payload)
             .then((response) => response.data);
     },
-    deleteResults(resultId) {
+    deleteResult(resultId) {
         return api.delete(`result/${resultId}/`).then((response) => response.data);
     },
 };

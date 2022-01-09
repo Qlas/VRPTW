@@ -55,7 +55,6 @@ const actions = {
     },
 
     removeResult({ commit }, resultId) {
-        console.log("aa")
         return new Promise((resolve, reject) => {
             resultService
                 .deleteResult(resultId)
