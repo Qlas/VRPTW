@@ -4,7 +4,7 @@
     <div class="" v-if="!loading_sources">
       <div v-for="(preview, index) of results" :key="index">
         <ResultsTile
-          :id="preview.name"
+          :id="preview.id"
           :name="preview.name"
           :capacity="preview.capacity"
           :cost="preview.cost"

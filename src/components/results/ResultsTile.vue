@@ -14,7 +14,7 @@
             <div class="column is-3">
               <h2>{{ name }}</h2>
             </div>
-            <div class="column is-offset-5">
+            <div class="column is-offset-4">
               <b-field grouped>
                 <div class="control tl-count-tag">
                   <b-taglist attached>
@@ -33,6 +33,14 @@
             </div>
           </div>
         </div>
+        <div class="column is-1">
+          <b-button
+            class="is-danger"
+            icon-left="trash-can"
+            @click="openDeleteDialog"
+            >Delete</b-button
+          >
+        </div>
       </div>
     </div>
     <b-collapse class="preview-tile" animation="slide" :open="isOpen">
@@ -42,7 +50,7 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapActions, mapMutations } from "vuex";
 import ResultDetails from "@/components/results/ResultDetails.vue";
 
 export default {
@@ -50,12 +58,22 @@ export default {
 
   components: { ResultDetails },
 
-  props: ["name", "info", "capacity", "cost", "user", "isOpen", "resultClient"],
+  props: [
+    "id",
+    "name",
+    "info",
+    "capacity",
+    "cost",
+    "user",
+    "isOpen",
+    "resultClient",
+  ],
   data() {
     return { componentKey: 0 };
   },
   methods: {
     ...mapMutations("results", ["openPreview", "closePreview"]),
+    ...mapActions("results", ["removeResult"]),
     onPreviewClick() {
       if (this.isOpen) this.closePreview(this.name);
       else {
@@ -66,6 +84,30 @@ export default {
 
     padInt(value) {
       return value.toString().padStart(2, "0");
+    },
+
+    openDeleteDialog() {
+      this.$buefy.dialog.confirm({
+        title: "Deleting Client",
+        message: `Are you sure you want to <b>delete</b> Result ${this.name}?`,
+        confirmText: "Delete ",
+        type: "is-danger",
+        hasIcon: true,
+        onConfirm: () => {
+          this.removeResult(this.id)
+            .then(() => {
+              this.$buefy.toast.open({
+                message: `Result ${this.name} deleted!`,
+                position: "is-top",
+                type: "is-primary",
+                container: "div.toast-space",
+              });
+            })
+            .catch((err) => {
+              this.$errorHandler.handleResponseError(err);
+            });
+        },
+      });
     },
   },
 };

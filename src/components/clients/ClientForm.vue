@@ -37,8 +37,9 @@
                 inputType="b-numberinput"
                 v-model="cost[props.row.name]"
                 min="0"
+                step="0.1"
                 :validation="{
-                  rules: 'required|numeric',
+                  rules: 'required',
                 }"
                 :showStar="false"
                 :field="{}"
@@ -49,8 +50,9 @@
                 inputType="b-numberinput"
                 v-model="time[props.row.name]"
                 min="0"
+                step="0.1"
                 :validation="{
-                  rules: 'required|numeric',
+                  rules: 'required',
                 }"
                 :showStar="false"
                 :field="{}"
